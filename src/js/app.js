@@ -52,10 +52,6 @@ App = {
       App.contracts.Holder.deployed()
       .then(function(instance){
         $('#holderAddress').text(instance.address);
-         instance.DataSaved({fromBlock: 0, toBlock: 'latest'})
-         .watch(function(error, result) {
-           console.log('epa', result.args);
-         });
       });
 
     });
@@ -70,7 +66,7 @@ App = {
        .then(function(data){
          for(var x = 0; x < data.length; x++){
            $("#pendingDataResponses").empty();
-           $("#pendingDataResponses").append("<li>"+ data[x] + "<button class='approveDataResponse' id='" + data[x] +"'>Approve</button></li>");
+           $("#pendingDataResponses").append("<li>"+ data[x] + "<button class='approveDataResponse' id='" + data[x] +"' data-index='" + x + "'>Approve</button></li>");
          }
          console.log(data);
        });
@@ -210,13 +206,14 @@ App = {
   consumer_approveDataResponse: function(){
     event.preventDefault();
     var targetId = event.target.id;
-    console.log('clicked on ',targetId);
+    var index = event.target.getAttribute('data-index');
+    console.log('clicked on ',index, targetId);
     // obtain data with our key
     var ipfsAddress = "0123123123";
 
     App.contracts.Consumer.deployed()
     .then(function(instance){
-        instance.reviewResponseData(targetId, true);
+        instance.reviewResponseData(index, targetId, true);
     });
   },
 
@@ -239,8 +236,9 @@ App = {
           App.contracts.Holder.deployed()
           .then(function(instance){
             var data_to_save = {'value':'ES'};
-            var data_sha = sha1(JSON.stringify(data_to_save));
-             instance.addData('nationality', data_sha, producerAddress, {from: account});
+            //var data_sha = sha1(JSON.stringify(data_to_save));
+            var data_sha = 'small';
+            instance.addData('nationality', data_sha, producerAddress, {from: account});
           });
         });
     });
