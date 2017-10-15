@@ -3,12 +3,10 @@ pragma solidity ^0.4.4;
 contract Producer {
     string public name;
     address public owner;
-    string[8] trustedDataTypes;
-    string[8] unTrustedDataTypes;
-    uint indexTrustedDataTypes;
-    uint indexUntrustedDataTypes;
-    mapping (string => address[]) trustNetworkMapping;
-    mapping (string => address[]) unTrustNetworkMapping;
+    bytes32[] trustedDataTypes;
+    bytes32[] unTrustedDataTypes;
+    mapping (bytes32 => address[]) trustNetworkMapping;
+    mapping (bytes32 => address[]) unTrustNetworkMapping;
 
     function Producer() {
         owner = msg.sender;
@@ -23,35 +21,33 @@ contract Producer {
         name = pName;
     }
 
-    function payForData(string dataType) payable {
+    function payForData(bytes32 dataType) payable {
       // keep statistics for datatype?
     }
 
-    function addReview(string dataType, bool trust) {
+    function addReview(bytes32 dataType, bool trust) {
       if (trust){
         trustNetworkMapping[dataType].push(msg.sender);
-        trustedDataTypes[indexTrustedDataTypes] = dataType;
-        indexTrustedDataTypes++;
+        trustedDataTypes.push(dataType);
       } else {
         unTrustNetworkMapping[dataType].push(msg.sender);
-        unTrustedDataTypes[indexUntrustedDataTypes] = dataType;
-        indexUntrustedDataTypes++;
+        unTrustedDataTypes.push(dataType);
       }
     }
 
-    function getTrustedDataTypes() returns (string[8]) {
+    function getTrustedDataTypes() returns (bytes32[]) {
       return trustedDataTypes;
     }
 
-    function getUnTrustedDataTypes() returns (string[8]) {
+    function getUnTrustedDataTypes() returns (bytes32[]) {
       return unTrustedDataTypes;
     }
 
-    function getFollowers(string dataType) returns (address[]){
+    function getFollowers(bytes32 dataType) returns (address[]){
       return trustNetworkMapping[dataType];
     }
 
-    function getHaters(string dataType) returns (address[]){
+    function getHaters(bytes32 dataType) returns (address[]){
       return unTrustNetworkMapping[dataType];
     }
 

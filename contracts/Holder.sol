@@ -11,7 +11,7 @@ contract Holder {
     }
 
     struct DataRequest{
-      string dataType;
+      bytes32 dataType;
       address contractAddress;
     }
 
@@ -19,18 +19,18 @@ contract Holder {
 
     address public owner;
     uint public amount;
-    mapping (string => Data) dataMap;
+    mapping (bytes32 => Data) dataMap;
     mapping (address => uint) contributors;
     mapping (address => DataRequest) pendingDataRequests;
     // TODO make an array or hacked mapping
     address[] pendingDataRequestKeys;
 
-    function addData(string dataType, string hashedData, address producerContract){
+    function addData(bytes32 dataType, string hashedData, address producerContract){
       DataSaved(hashedData, msg.sender);
       dataMap[dataType] = Data(hashedData, producerContract);
     }
 
-    function requestData(string dataType, address contractAddress, string publickey) payable {
+    function requestData(bytes32 dataType, address contractAddress, string publickey) payable {
        amount += msg.value;
        contributors[msg.sender] = msg.value;
        // we should add msg.sender + dataType so that a user can ask for several things or block
@@ -56,7 +56,7 @@ contract Holder {
       return pendingDataRequestKeys;
     }
 
-    function getDataType(string dataType) returns (string, string, address){
+    function getDataType(bytes32 dataType) returns (bytes32, string, address){
       return (dataType, dataMap[dataType].dataHash, dataMap[dataType].producer);
     }
 

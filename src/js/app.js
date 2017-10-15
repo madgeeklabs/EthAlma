@@ -110,7 +110,7 @@ App = {
 
     App.contracts.Producer.deployed()
     .then(function(instance){
-       return instance.getFollowers.call();
+       return instance.getFollowers.call("nationality");
      })
      .then(function(data){
        for(var x = 0; x < data.length; x++) {
@@ -122,7 +122,7 @@ App = {
 
      App.contracts.Producer.deployed()
      .then(function(instance){
-        return instance.getHaters.call();
+        return instance.getHaters.call("nationality");
       })
       .then(function(data){
         for(var x = 0; x < data.length; x++) {
