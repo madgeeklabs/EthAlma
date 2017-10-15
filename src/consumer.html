@@ -18,36 +18,39 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body style="background-color: #f0f8ff;">
+  <body style="background-color: #f2f2f2;">
     <div>
     <span id="holderAddress">0x000000</span>
     </div>
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">Consumer</h1>
+          <div class="about-people-avatar">
+            <img class="main-image center-cropped" src="http://www.alwaystakingcare.ca/images/lcbo-logo.png" alt="Kishore Kumar">
+          </div>
+          <h1 class="text-center"> Data Consumer</h1>
+          <h3 class="text-center"> LCBO </h3>
           <hr/>
           <br/>
-        </div>
-      </div>
 
-      <div class="people-you-might-know">
-        <div class="add-people-header">
-          <h6 class="header-title">
-            Data acquired:
-          </h6>
-        </div>
-        <div id="pendingDataResponses">
+          <div class="people-you-might-know">
+            <div class="add-people-header">
+              <h6 class="header-title">
+                Data acquired:
+              </h6>
+            </div>
+            <div id="pendingDataResponses">
 
-        </div>
-      </div>
+            </div>
+          </div>
 
-      </div>
-      <div class="row">
           <button id="test_getData" style="margin: 40px 0;" type="button" class="btn btn-primary btn-block">Get Data</button>
           <button id="consumer_requestData" style="margin: 40px 0;" type="button" class="btn btn-primary btn-block">Request data</button>
+
+        </div>
       </div>
-    </div>
+      </div>
+</div>
 
 
     <div id="row_template" style="display : none;">
@@ -70,7 +73,10 @@
         </div>
         <div class="small-12 medium-6 columns add-friend">
           <div class="add-friend-action">
-            <button type="button" class="btn btn-primary approveDataResponse">Ξ 7.29798</button>
+            <button type="button" class="btn btn-primary approveDataResponse">Good</button>
+          </div>
+          <div class="add-friend-action">
+            <button type="button" class="btn btn-danger neglectDataResponse">Bad</button>
           </div>
         </div>
       </div>

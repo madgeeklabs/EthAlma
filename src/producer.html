@@ -18,7 +18,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body style="background-color: #ffe4e1;">
+  <body style="background-color: #f2f2f2;">
     <div>
     <span id="holderAddress">0x00000000000000</span>
     </div>
@@ -26,39 +26,47 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">Producer</h1> <h1 id="producer_balance">0</h1>Eth
+          <div class="about-people-avatar">
+            <img class="main-image center-cropped" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Spanish_Presidential_Flag.svg/768px-Spanish_Presidential_Flag.svg.png" alt="Kishore Kumar">
+          </div>
+          <h1 class="text-center">Data Provider</h1>
+          <h3 class="text-center"> Spanish Goverment </h3>
+          <h3 id="producer_balance">0</h3>Eth
           <hr/>
           <br/>
+
+          <div class="people-you-might-know">
+            <div class="add-people-header">
+              <h6 class="header-title">
+                Trusted by:
+              </h6>
+            </div>
+            <div id="producer_followers">
+
+            </div>
+          </div>
+
+          <br>
+
+          <div class="people-you-might-know">
+            <div class="add-people-header">
+              <h6 class="header-title">
+                Untrusted by:
+              </h6>
+            </div>
+            <div id="producer_haters">
+
+            </div>
+          </div>
+
+          <div class="row">
+            <button id="producer_addData" style="margin: 40px 0;" type="button" class="btn btn-primary btn-block">Add data to person</button>
+          </div>
+
         </div>
       </div>
 
-      <div class="people-you-might-know">
-        <div class="add-people-header">
-          <h6 class="header-title">
-            Trusted by:
-          </h6>
-        </div>
-        <div id="producer_followers">
 
-        </div>
-      </div>
-
-      <br>
-
-      <div class="people-you-might-know">
-        <div class="add-people-header">
-          <h6 class="header-title">
-            Untrusted by:
-          </h6>
-        </div>
-        <div id="producer_haters">
-
-        </div>
-      </div>
-
-      <div class="row">
-        <button id="producer_addData" style="margin: 40px 0;" type="button" class="btn btn-primary btn-block">Add data to person</button>
-      </div>
     </div>
 
     <div id="row_template" style="display : none;">
