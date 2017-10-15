@@ -38,9 +38,22 @@ contract Holder {
        pendingDataRequestKeys.push(msg.sender);
     }
 
+    function remove(address[] array, uint index) internal returns(address[] value) {
+        if (index >= array.length) return;
+        address[] memory arrayNew = new address[](array.length-1);
+        for (uint i = 0; i<arrayNew.length; i++){
+            if(i != index && i<index){
+                arrayNew[i] = array[i];
+            } else {
+                arrayNew[i] = array[i+1];
+            }
+        }
+        delete array;
+        return arrayNew;
+    }
+
     function approveRequestedData(address senderAddress, string IFPSHashAddress){
         DataRequest memory dataRequest = pendingDataRequests[senderAddress];
-        // remove from map && array
         // send money to dataMap[dataRequest.dataType].producer
         Producer(dataMap[dataRequest.dataType].producer).payForData.value(contributors[senderAddress])(dataRequest.dataType);
 
@@ -50,6 +63,13 @@ contract Holder {
           dataMap[dataRequest.dataType].dataHash,
           dataMap[dataRequest.dataType].producer,
           dataRequest.dataType);
+
+        // remove from map && array
+        for (uint i = 0; i<pendingDataRequestKeys.length; i++){
+            if (pendingDataRequestKeys[i] == senderAddress) {
+              pendingDataRequestKeys =remove(pendingDataRequestKeys, i);
+            }
+        }
     }
 
     function getPendingRequest() returns (address[]){

@@ -82,9 +82,16 @@ App = {
          return instance.getPendingRequest.call();
        })
        .then(function(data){
+         var pendingDiv = $('#pending_div_holder');
+         var rowTemplate = $('#row_template');
+         pendingDiv.empty();
+
          for(var x = 0; x < data.length; x++) {
-           $("#pendingDataRequests").empty();
-           $("#pendingDataRequests").append("<li>"+ data[x] + "<button class='approveDataRequest' id='" + data[x] +"'>Approve</button></li>");
+             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/UPVxPjb.jpg");
+             rowTemplate.find('.author-name').text(data[x]);
+             rowTemplate.find('.btn').text("Approve");
+             rowTemplate.find('.btn').attr("id", "" + data[x] + "");
+             pendingDiv.append(rowTemplate.html());
          }
          console.log(data);
        });
@@ -149,7 +156,7 @@ App = {
   holder_approveDataRequest: function(){
     event.preventDefault();
     var targetId = event.target.id;
-    console.log('clicked on ',targetId);
+    console.log('clicked on ', targetId);
     // obtain data with our key
     var ipfsAddress = "0123123123";
 

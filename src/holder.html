@@ -32,63 +32,14 @@
           <hr/>
           <br/>
 
-
           <div class="people-you-might-know">
             <div class="add-people-header">
               <h6 class="header-title">
-                People You Might Know
+                Pending approvals:
               </h6>
             </div>
-            <div class="row add-people-section">
-              <div class="col-xs-12 col-sm-8  about-people">
-                <div class="about-people-avatar">
-                  <img class="avatar-image" src="https://i.imgur.com/UPVxPjb.jpg" alt="Kishore Kumar">
-                </div>
-                <div class="about-people-author">
-                  <p class="author-name">
-                    Kishore Kumar
-                  </p>
-                </div>
-              </div>
-              <div class="small-12 medium-6 columns add-friend">
-                <div class="add-friend-action">
-                  <button type="button" class="btn btn-primary">Ξ 7.29798</button>
-                </div>
-              </div>
-            </div>
-            <div class="row add-people-section">
-              <div class="col-xs-12 col-sm-8  about-people">
-                <div class="about-people-avatar">
-                  <img class="avatar-image" src="https://i.imgur.com/GHeazQ2.jpg" alt="Kishore Kumar">
-                </div>
-                <div class="about-people-author">
-                  <p class="author-name">
-                    Barack Obama
-                  </p>
-                </div>
-              </div>
-              <div class="small-12 medium-6 columns add-friend">
-                <div class="add-friend-action">
-                  <button type="button" class="btn btn-primary">Ξ 7.29798</button>
-                </div>
-              </div>
-            </div>
-            <div class="row add-people-section">
-              <div class="col-xs-12 col-sm-8 about-people">
-                <div class="about-people-avatar">
-                  <img class="avatar-image" src="https://i.imgur.com/SytPzuC.jpg" alt="Kishore Kumar">
-                </div>
-                <div class="about-people-author">
-                  <p class="author-name">
-                    Harry Manchanda
-                  </p>
-                </div>
-              </div>
-              <div class="small-12 medium-6 columns add-friend">
-                <div class="add-friend-action">
-                  <button type="button" class="btn btn-primary">Ξ 7.29798</button>
-                </div>
-              </div>
+            <div id="pending_div_holder">
+
             </div>
           </div>
 
@@ -100,15 +51,33 @@
       </div>
       <div>
         <ul id="pendingDataRequests">
-
         </ul>
       </div>
 
       <div class="row">
-        <button id="holder_getPendingRequests">Pending requests</button>
         <div id='all_data'></div>
       </div>
     </div>
+
+    <div id="row_template" style="display : none;">
+      <div class="row add-people-section">
+      <div class="col-xs-12 col-sm-8  about-people">
+        <div class="about-people-avatar">
+          <img class="avatar-image" src="https://i.imgur.com/UPVxPjb.jpg" alt="Kishore Kumar">
+        </div>
+        <div class="about-people-author">
+          <p class="author-name">
+            Kishore Kumar
+          </p>
+        </div>
+      </div>
+      <div class="small-12 medium-6 columns add-friend">
+        <div class="add-friend-action">
+          <button type="button" class="btn btn-primary approveDataRequest">Ξ 7.29798</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
