@@ -80,12 +80,6 @@ App = {
              pendingDiv.append(rowTemplate.html());
          }
          console.log(data);
-
-        //  for(var x = 0; x < data.length; x++){
-        //    $("#pendingDataResponses").empty();
-        //    $("#pendingDataResponses").append("<li>"+ data[x] + "<button class='approveDataResponse' id='" + data[x] +"' data-index='" + x + "'>Approve</button></li>");
-        //  }
-        //  console.log(data);
        });
   },
 
@@ -116,6 +110,25 @@ App = {
            $('#holder_balance').text(res.c[0]/10000);
          });
        });
+
+       App.contracts.Holder.deployed()
+       .then(function(instance){
+          return instance.getDataType.call('nationality');
+        })
+        .then(function(data){
+          var array = data[1];
+          var pendingDiv = $('#information_holder');
+          var rowTemplate = $('#row_template_no_button');
+          pendingDiv.empty();
+
+          for(var x = 0; x < data[1].length; x++) {
+              rowTemplate.find('.avatar-image').attr("src", "https://qph.ec.quoracdn.net/main-qimg-0a43ba9f3eeb647b439e4b5d5d6dcbb1");
+              rowTemplate.find('.author-name').text(data[2][x]);
+              rowTemplate.find('.author-store').text(web3.toUtf8(data[1][x]));
+              pendingDiv.append(rowTemplate.html());
+          }
+
+        });
   },
 
   updateProducer: function() {
