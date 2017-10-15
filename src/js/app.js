@@ -167,20 +167,14 @@ App = {
   },
 
   test_getData: function(){
-    web3.eth.getAccounts(function(error, accounts) {
-        if (error) {
-          console.log(error);
-        }
-        var account = accounts[0];
-        App.contracts.Holder.deployed()
-        .then(function(instance){
-           return instance.getDataType.call('nationality', {from: account});
-         })
-         .then(function(data){
-           for (var x = 0; x < data.length; x++){
-             console.log(data[x]);
-           }
-         });
+    App.contracts.Holder.deployed()
+    .then(function(instance){
+      return instance.getDataType.call('nationality');
+    })
+    .then(function(data){
+      for (var x = 0; x < data.length; x++){
+        console.log(data[x]);
+      }
     });
   },
 
