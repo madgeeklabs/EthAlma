@@ -19,31 +19,63 @@
     <![endif]-->
   </head>
   <body>
-    <div> HOLDER
+    <div>
     <span id="holderAddress">0x00000000000000</span>
     </div>
+
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">Freedom for the world</h1> <h1 id="producer_balance">0</h1>Eth
-          <h2>Producer</h2>
+          <h1 class="text-center">Producer</h1> <h1 id="producer_balance">0</h1>Eth
           <hr/>
           <br/>
         </div>
       </div>
 
-      <div>
-        <ul id="producer_followers">
-        </ul>
+      <div class="people-you-might-know">
+        <div class="add-people-header">
+          <h6 class="header-title">
+            Trusted by:
+          </h6>
+        </div>
+        <div id="producer_followers">
+
+        </div>
       </div>
 
-      <div>
-        <ul id="producer_haters">
-        </ul>
+      <br>
+
+      <div class="people-you-might-know">
+        <div class="add-people-header">
+          <h6 class="header-title">
+            Untrusted by:
+          </h6>
+        </div>
+        <div id="producer_haters">
+
+        </div>
       </div>
 
       <div class="row">
-        <button id="producer_addData">Add Data</button>
+        <button id="producer_addData" style="margin: 40px 0;" type="button" class="btn btn-primary btn-block">Add data to person</button>
+      </div>
+    </div>
+
+    <div id="row_template" style="display : none;">
+      <div class="row add-people-section">
+        <div class="col-xs-12 col-sm-8  about-people">
+          <div class="about-people-avatar">
+            <img class="avatar-image" src="https://i.imgur.com/lSB8K47.jpg" alt="Kishore Kumar">
+          </div>
+          <div class="about-people-author">
+            <p class="author-name">
+              Kishore Kumar
+            </p>
+            <p class="store-name">
+              Winnery Toronto
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 

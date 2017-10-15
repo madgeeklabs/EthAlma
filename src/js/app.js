@@ -66,11 +66,26 @@ App = {
          return instance.getPendingResponses.call();
        })
        .then(function(data){
-         for(var x = 0; x < data.length; x++){
-           $("#pendingDataResponses").empty();
-           $("#pendingDataResponses").append("<li>"+ data[x] + "<button class='approveDataResponse' id='" + data[x] +"' data-index='" + x + "'>Approve</button></li>");
+
+         var pendingDiv = $('#pendingDataResponses');
+         var rowTemplate = $('#row_template');
+         pendingDiv.empty();
+
+         for(var x = 0; x < data.length; x++) {
+             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/2kmVD.jpg");
+             rowTemplate.find('.author-name').text(data[x]);
+             rowTemplate.find('.btn').text("Good");
+             rowTemplate.find('.btn').attr("id", "" + data[x] + "");
+             rowTemplate.find('.btn').attr("data-index", "" + x + "");
+             pendingDiv.append(rowTemplate.html());
          }
          console.log(data);
+
+        //  for(var x = 0; x < data.length; x++){
+        //    $("#pendingDataResponses").empty();
+        //    $("#pendingDataResponses").append("<li>"+ data[x] + "<button class='approveDataResponse' id='" + data[x] +"' data-index='" + x + "'>Approve</button></li>");
+        //  }
+        //  console.log(data);
        });
   },
 
@@ -85,7 +100,7 @@ App = {
          pendingDiv.empty();
 
          for(var x = 0; x < data.length; x++) {
-             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/UPVxPjb.jpg");
+             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/3xyjnB5.png");
              rowTemplate.find('.author-name').text(data[x]);
              rowTemplate.find('.btn').text("Approve");
              rowTemplate.find('.btn').attr("id", "" + data[x] + "");
@@ -118,9 +133,15 @@ App = {
        return instance.getFollowers.call("nationality");
      })
      .then(function(data){
+
+       var pendingDiv = $('#producer_followers');
+       var rowTemplate = $('#row_template');
+       pendingDiv.empty();
+
        for(var x = 0; x < data.length; x++) {
-         $("#producer_followers").empty();
-         $("#producer_followers").append("<li class='followers'>"+ data[x] + "</li>");
+           rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/3xyjnB5.png");
+           rowTemplate.find('.author-name').text(data[x]);
+           pendingDiv.append(rowTemplate.html());
        }
        console.log(data);
      });
@@ -130,11 +151,18 @@ App = {
         return instance.getHaters.call("nationality");
       })
       .then(function(data){
-        for(var x = 0; x < data.length; x++) {
-          $("#producer_haters").empty();
-          $("#producer_haters").append("<li class='haters'>"+ data[x] + "</li>");
+        var pendingDiv = $('#producer_haters');
+        var rowTemplate = $('#row_template');
+        pendingDiv.empty();
+
+        for(var x = 0; x < 1; x++) {
+            rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/MQ0oCKc.jpg");
+            rowTemplate.find('.store-name').text("kim jong un");
+            rowTemplate.find('.author-name').text("0x1e46f36cbaca8d82aee9ad53483469e92931de7f");
+            pendingDiv.append(rowTemplate.html());
         }
         console.log(data);
+
       });
   },
 
