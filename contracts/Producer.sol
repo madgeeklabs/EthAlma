@@ -23,4 +23,8 @@ contract Producer {
       // keep statistics for datatype?
     }
 
+    function getMyBalance() returns (uint) {
+      return this.balance;
+    }
+
 }

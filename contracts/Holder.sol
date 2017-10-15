@@ -1,6 +1,8 @@
 pragma solidity ^0.4.4;
 
 import './Producer.sol';
+import './Consumer.sol';
+
 
 contract Holder {
     struct Data{
@@ -23,9 +25,9 @@ contract Holder {
     // TODO make an array or hacked mapping
     address[] pendingDataRequestKeys;
 
-    function addData(string dataType, string hashedData){
+    function addData(string dataType, string hashedData, address producerContract){
       DataSaved(hashedData, msg.sender);
-      dataMap[dataType] = Data(hashedData, msg.sender);
+      dataMap[dataType] = Data(hashedData, producerContract);
     }
 
     function requestData(string dataType, address contractAddress, string publickey) payable {
@@ -40,10 +42,11 @@ contract Holder {
         DataRequest memory dataRequest = pendingDataRequests[senderAddress];
         // remove from map && array
         // send money to dataMap[dataRequest.dataType].producer
-        Producer(dataMap[dataRequest.dataType].producer)
-          .payForData.value(contributors[senderAddress])(dataRequest.dataType);
+        Producer(dataMap[dataRequest.dataType].producer).payForData.value(contributors[senderAddress])(dataRequest.dataType);
+
         // substract money from ammount and contributors[senderAddress]
         // send to contract IFPSHashAddress
+        // Consumer(dataRequest.contractAddress).responseData(IFPSHashAddress, dataMap[dataRequest.dataType].producer);
     }
 
     function getPendingRequest() returns (address[]){
