@@ -3,15 +3,6 @@ App = {
   contracts: {},
 
   init: function() {
-    String.prototype.hashCode = function() {
-      var hash = 0, i, chr;
-      if (this.length === 0) return hash;
-       for (i = 0; i < this.length; i++) {
-         chr = this.charCodeAt(i); hash = ((hash << 5) - hash) + chr;
-         hash |= 0; // Convert to 32bit integer
-       }
-       return hash;
-     };
     return App.initWeb3();
   },
 
@@ -49,6 +40,7 @@ App = {
 
       App.contracts.Holder.deployed()
       .then(function(instance){
+        $('#holderAddress').text(instance.address);
          instance.DataSaved({fromBlock: 0, toBlock: 'latest'})
          .watch(function(error, result) {
            console.log('epa', result.args);
@@ -60,32 +52,64 @@ App = {
   },
 
   bindEvents: function() {
-    $(document).on('click', '#addData', App.addData);
-    $(document).on('click', '#getData', App.getData);
+    $(document).on('click', '#test_getData', App.test_getData);
+    //PRODUCER
+    $(document).on('click', '#producer_addData', App.producer_addData);
+    //CONSUMER
+    $(document).on('click', '#consumer_requestData', App.consumer_requestData);
+    //HOLDER
+    $(document).on('click', '#holder_getPendingRequests', App.holder_getPendingRequests);
   },
 
-  getData: function(){
+  holder_getPendingRequests: function(){
+    web3.eth.getAccounts(function(error, accounts) {
+        App.contracts.Holder.deployed()
+        .then(function(instance){
+           return instance.getPendingRequest.call();
+         })
+         .then(function(data){
+           console.log(data);
+         });
+    });
+  },
+
+  test_getData: function(){
     web3.eth.getAccounts(function(error, accounts) {
         if (error) {
           console.log(error);
         }
         var account = accounts[0];
-
         App.contracts.Holder.deployed()
         .then(function(instance){
            return instance.getDataType.call('nationality', {from: account});
          })
          .then(function(data){
-             console.log(data[0], web3.toUtf8(data[0]));
-             console.log(data[1]);
+           for (var x = 0; x < data.length; x++){
+             console.log(data[x]);
+           }
          });
     });
   },
 
-  addData: function() {
-    console.log('one');
+  consumer_requestData: function (){
     event.preventDefault();
+    // var petId = parseInt($(event.target).data('id'));
+    web3.eth.getAccounts(function(error, accounts) {
+        if (error) {
+          console.log(error);
+        }
+        var account = accounts[0];
+        var consumerContractAddress = '0x5e2bd5b0ce115d45bd319189d873378d589d35c0';
+        var publickey = 'abcd1234';
+        App.contracts.Holder.deployed()
+        .then(function(instance){
+          instance.requestData('nationality', consumerContractAddress, publickey, {from: account, value: web3.toWei(1, 'ether')});
+        });
+    });
+  },
 
+  producer_addData: function() {
+    event.preventDefault();
     // var petId = parseInt($(event.target).data('id'));
     web3.eth.getAccounts(function(error, accounts) {
         if (error) {
@@ -93,20 +117,10 @@ App = {
         }
         var account = accounts[0];
 
-        App.contracts.Producer.deployed()
-        .then(function(instance){
-          console.log(instance);
-        instance.setName('111 2222 33333 44444 55555 666666 7777777  88888888 99999999', {from: account});
-          return instance.getInfo.call();
-         })
-        .then(function (getInfoData) {
-            console.log(web3.toUtf8(getInfoData));
-        });
-
         App.contracts.Holder.deployed()
         .then(function(instance){
           var data_to_save = {'value':'ES'};
-          var data_sha = JSON.stringify(data_to_save).hashCode();
+          var data_sha = sha1(JSON.stringify(data_to_save));
            instance.addData('nationality', data_sha, {from: account});
         });
     });

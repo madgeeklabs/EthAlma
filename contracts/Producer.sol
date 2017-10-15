@@ -1,22 +1,26 @@
 pragma solidity ^0.4.4;
 
-contract SpainGov {
-    bytes32 public name;
+contract Producer {
+    string public name;
     address public owner;
 
     /*event PetAdopted(uint petId);*/
 
-    function SpainGov() {
+    function Producer() {
         owner = msg.sender;
-        name = "unasigned"
+        name = "noname";
     }
 
-    function getInfo() returns (bytes32 lalal){
+    function getInfo() returns (string){
         return name;
     }
 
-    function setName(bytes32 pName){
+    function setName(string pName){
         name = pName;
+    }
+
+    function payForData(string dataType) payable {
+      // keep statistics for datatype?
     }
 
 }
