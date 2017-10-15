@@ -72,7 +72,7 @@ App = {
          pendingDiv.empty();
 
          for(var x = 0; x < data.length; x++) {
-             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/2kmVD.jpg");
+             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/UPVxPjb.jpg");
              rowTemplate.find('.author-name').text(data[x]);
              rowTemplate.find('.btn').attr("id", "" + data[x] + "");
              rowTemplate.find('.btn').attr("data-index", "" + x + "");
@@ -93,7 +93,7 @@ App = {
          pendingDiv.empty();
 
          for(var x = 0; x < data.length; x++) {
-             rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/3xyjnB5.png");
+             rowTemplate.find('.avatar-image').attr("src", "http://www.alwaystakingcare.ca/images/lcbo-logo.png");
              rowTemplate.find('.author-name').text(data[x]);
              rowTemplate.find('.btn').attr("id", "" + data[x] + "");
              pendingDiv.append(rowTemplate.html());
@@ -150,8 +150,9 @@ App = {
        pendingDiv.empty();
 
        for(var x = 0; x < data.length; x++) {
-           rowTemplate.find('.avatar-image').attr("src", "https://i.imgur.com/3xyjnB5.png");
+           rowTemplate.find('.avatar-image').attr("src", "http://www.alwaystakingcare.ca/images/lcbo-logo.png");
            rowTemplate.find('.author-name').text(data[x]);
+           rowTemplate.find('.store-name').text('LCBO');
            pendingDiv.append(rowTemplate.html());
        }
        console.log(data);
