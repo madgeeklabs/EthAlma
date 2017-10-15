@@ -40,6 +40,8 @@ App = {
       App.contracts.Producer = TruffleContract(ProducerArtifact);
       // Set the provider for our contract
       App.contracts.Producer.setProvider(App.web3Provider);
+      //App.contracts.Producer.new(); 0x1e46f36cbaca8d82aee9ad53483469e92931de7f
+      //App.contracts.Producer.new(); 0x26ffa9c736af1186c1b0be8a04ac19617e532b7c
       // Listen to events of contract
     });
     $.getJSON('Holder.json', function(data) {
