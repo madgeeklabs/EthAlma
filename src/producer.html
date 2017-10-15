@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Pete's Pet Shop</title>
+    <title>Alma: Freedom for the world</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,20 +19,30 @@
   </head>
   <body>
     <div> HOLDER
-    <span id="holderAddress">SArasa</span>
+    <span id="holderAddress">0x00000000000000</span>
     </div>
     <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">Freedom for the world</h1> <h1 id="producer_balance">0</h1><h1>Eth</h1>
+          <h1 class="text-center">Freedom for the world</h1> <h1 id="producer_balance">0</h1>Eth
+          <h2>Producer</h2>
           <hr/>
           <br/>
         </div>
       </div>
 
-      <div id="petsRow" class="row">
+      <div>
+        <ul id="producer_followers">
+        </ul>
+      </div>
+
+      <div>
+        <ul id="producer_haters">
+        </ul>
+      </div>
+
+      <div class="row">
         <button id="producer_addData">Add Data</button>
-        <button id="producer_updateBalance">Update Balance</button>
       </div>
     </div>
 

@@ -21,8 +21,18 @@ App = {
   initContract: function() {
 
     setInterval(function(){
-      App.updateBalances();
+      App.updateHolder();
+      App.updateConsumer();
+      App.updateProducer();
     }, 5000);
+
+    $.getJSON('Consumer.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with truffle-contract
+      var ConsumerArtifact = data;
+      App.contracts.Consumer = TruffleContract(ConsumerArtifact);
+      // Set the provider for our contract
+      App.contracts.Consumer.setProvider(App.web3Provider);
+    });
 
     $.getJSON('Producer.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
@@ -52,6 +62,77 @@ App = {
     return App.bindEvents();
   },
 
+  updateConsumer: function(){
+      App.contracts.Consumer.deployed()
+      .then(function(instance){
+         return instance.getPendingResponses.call();
+       })
+       .then(function(data){
+         for(var x = 0; x < data.length; x++){
+           $("#pendingDataResponses").empty();
+           $("#pendingDataResponses").append("<li>"+ data[x] + "<button class='approveDataResponse' id='" + data[x] +"'>Approve</button></li>");
+         }
+         console.log(data);
+       });
+  },
+
+  updateHolder: function(){
+      App.contracts.Holder.deployed()
+      .then(function(instance){
+         return instance.getPendingRequest.call();
+       })
+       .then(function(data){
+         for(var x = 0; x < data.length; x++) {
+           $("#pendingDataRequests").empty();
+           $("#pendingDataRequests").append("<li>"+ data[x] + "<button class='approveDataRequest' id='" + data[x] +"'>Approve</button></li>");
+         }
+         console.log(data);
+       });
+
+       App.contracts.Holder.deployed()
+       .then(function(instance){
+         web3.eth.getBalance(instance.address, function(error, res){
+           //console.log('holder', res.c[0]);
+           $('#holder_balance').text(res.c[0]/10000);
+         });
+       });
+  },
+
+  updateProducer: function() {
+    // updateBalance
+    App.contracts.Producer.deployed()
+    .then(function(instance){
+      web3.eth.getBalance(instance.address, function(error, res){
+        //console.log('producer', res.c[0]);
+          $('#producer_balance').text(res.c[0]/10000);
+      });
+    });
+
+    App.contracts.Producer.deployed()
+    .then(function(instance){
+       return instance.getFollowers.call();
+     })
+     .then(function(data){
+       for(var x = 0; x < data.length; x++) {
+         $("#producer_followers").empty();
+         $("#producer_followers").append("<li class='followers'>"+ data[x] + "</li>");
+       }
+       console.log(data);
+     });
+
+     App.contracts.Producer.deployed()
+     .then(function(instance){
+        return instance.getHaters.call();
+      })
+      .then(function(data){
+        for(var x = 0; x < data.length; x++) {
+          $("#producer_haters").empty();
+          $("#producer_haters").append("<li class='haters'>"+ data[x] + "</li>");
+        }
+        console.log(data);
+      });
+  },
+
   bindEvents: function() {
     $(document).on('click', '#test_getData', App.test_getData);
     //PRODUCER
@@ -59,27 +140,12 @@ App = {
     //$(document).on('click', '#producer_updateBalance', App.producer_producerBalance);
     //CONSUMER
     $(document).on('click', '#consumer_requestData', App.consumer_requestData);
+    $(document).on('click', '.approveDataResponse', App.consumer_approveDataResponse);
     //HOLDER
-    $(document).on('click', '#holder_getPendingRequests', App.holder_getPendingRequests);
     $(document).on('click', '.approveDataRequest', App.holder_approveDataRequest);
-
   },
 
-  holder_getPendingRequests: function(){
-    web3.eth.getAccounts(function(error, accounts) {
-        App.contracts.Holder.deployed()
-        .then(function(instance){
-           return instance.getPendingRequest.call();
-         })
-         .then(function(data){
-           for(var x = 0; x < data.length; x++){
-             $("#pendingDataRequests").append("<li>"+ data[x] + "<button class='approveDataRequest' id='" + data[x] +"'>Approve</button></li>");
-           }
-           console.log(data);
-         });
-    });
-  },
-
+  // HOLDER
   holder_approveDataRequest: function(){
     event.preventDefault();
     var targetId = event.target.id;
@@ -88,12 +154,11 @@ App = {
     var ipfsAddress = "0123123123";
 
     // save into ipfs with requester key
-    web3.eth.getAccounts(function(error, accounts) {
-        App.contracts.Holder.deployed()
-        .then(function(instance){
-          instance.approveRequestedData(targetId, ipfsAddress);
-        });
+    App.contracts.Holder.deployed()
+    .then(function(instance){
+      instance.approveRequestedData(targetId, ipfsAddress);
     });
+
   },
 
   test_getData: function(){
@@ -114,6 +179,7 @@ App = {
     });
   },
 
+  // CONSUMER
   consumer_requestData: function (){
     event.preventDefault();
     // var petId = parseInt($(event.target).data('id'));
@@ -122,38 +188,32 @@ App = {
           console.log(error);
         }
         var account = accounts[0];
-        var consumerContractAddress = '0x5e2bd5b0ce115d45bd319189d873378d589d35c0';
         var publickey = 'abcd1234';
-        App.contracts.Holder.deployed()
-        .then(function(instance){
-          instance.requestData('nationality', consumerContractAddress, publickey, {from: account, value: web3.toWei(1, 'ether')});
+        App.contracts.Consumer.deployed()
+        .then(function (consumerInstance){
+          App.contracts.Holder.deployed()
+          .then(function(instance){
+            instance.requestData('nationality', consumerInstance.address, publickey, {from: account, value: web3.toWei(1, 'ether')});
+          });
         });
+
     });
   },
 
-  updateBalances: function() {
-    App.contracts.Producer.deployed()
+  consumer_approveDataResponse: function(){
+    event.preventDefault();
+    var targetId = event.target.id;
+    console.log('clicked on ',targetId);
+    // obtain data with our key
+    var ipfsAddress = "0123123123";
+
+    App.contracts.Consumer.deployed()
     .then(function(instance){
-      web3.eth.getBalance(instance.address, function(error, res){
-        //console.log('producer', res.c[0]);
-          $('#producer_balance').text(res.c[0]/10000);
-      });
+        instance.reviewResponseData(targetId, true);
     });
-    App.contracts.Holder.deployed()
-    .then(function(instance){
-      web3.eth.getBalance(instance.address, function(error, res){
-        //console.log('holder', res.c[0]);
-        $('#holder_balance').text(res.c[0]/10000);
-      });
-    });
-    // App.contracts.Consumer.deployed()
-    // .then(function(instance){
-    //   web3.eth.getBalance(instance.address, function(error, res){
-    //     //console.log('holder', res.c[0]);
-    //     $('#consumer_balance').text(res.c[0]/10000);
-    //   });
-    // });
   },
+
+  // PRODUCER
 
   producer_addData: function() {
     event.preventDefault();

@@ -45,8 +45,11 @@ contract Holder {
         Producer(dataMap[dataRequest.dataType].producer).payForData.value(contributors[senderAddress])(dataRequest.dataType);
 
         // substract money from ammount and contributors[senderAddress]
-        // send to contract IFPSHashAddress
-        // Consumer(dataRequest.contractAddress).responseData(IFPSHashAddress, dataMap[dataRequest.dataType].producer);
+        Consumer(dataRequest.contractAddress)
+        .responseData(IFPSHashAddress,
+          dataMap[dataRequest.dataType].dataHash,
+          dataMap[dataRequest.dataType].producer,
+          dataRequest.dataType);
     }
 
     function getPendingRequest() returns (address[]){

@@ -1,23 +1,34 @@
 pragma solidity ^0.4.4;
+import './Producer.sol';
 
 contract Consumer {
-
-    /*event PetAdopted(uint petId);*/
     struct ResponseData{
-      string dataSha;
+      string ipfsHashEncryptedData;
+      string dataHash;
       address producerAddress;
+      string dataType;
     }
 
-    mapping (bytes32 => ResponseData) public dataPendingRating;
-    bytes32[] public dataPendingRatingKeys;
+    mapping (address => ResponseData) public dataPendingRating;
+    address[] public dataPendingRatingKeys;
 
-    function Consumer() {
+    function reviewResponseData(address holderAddress, bool trust) {
+      ResponseData memory responseData = dataPendingRating[holderAddress];
+      Producer(responseData.producerAddress).addReview(responseData.dataType, trust);
     }
 
-    function responseData(string dataSha, address producerAddress){
-
+    function responseData(string ipfsHashEncryptedData, string dataHash, address producerAddress, string dataType){
+        dataPendingRating[msg.sender] = ResponseData(ipfsHashEncryptedData, dataHash, producerAddress, dataType);
+        dataPendingRatingKeys.push(msg.sender);
     }
 
+    function getResponseData(address holderAddress) returns (string, string, address, string){
+        ResponseData memory to_ret = dataPendingRating[holderAddress];
+        return (to_ret.ipfsHashEncryptedData, to_ret.dataHash, to_ret.producerAddress, to_ret.dataType);
+    }
 
+    function getPendingResponses() returns (address[]){
+      return dataPendingRatingKeys;
+    }
 
 }
